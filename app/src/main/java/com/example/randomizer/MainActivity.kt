@@ -7,10 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,22 +35,35 @@ class MainActivity : ComponentActivity() {
         setContent {
             RandomizerTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    PrintOptions(options = listOfOptions)
+                    Options(options = listOfOptions)
                 }
+
+                val clicks = rememberSaveable {
+                    mutableStateOf(0)
+                }
+                val lambda = { clicks.value += 1}
+                ClickCounter(clicks = clicks.value, lambda)
             }
         }
     }
 }
 
 @Composable
-fun PrintOptions(options: List<Option>) {
+fun ClickCounter(clicks: Int, onClick: () -> Unit) {
+    Button(onClick = onClick) {
+        Text("I've been clicked $clicks times.")
+    }
+}
+
+@Composable
+fun Options(options: List<Option>) {
     Column(
         verticalArrangement = Arrangement.spacedBy(40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(80.dp))
         for (option in options) {
-            PrintOption(option = option)
+            Option(option = option)
         }
     }
 }
@@ -62,16 +77,16 @@ fun PrintOptions(options: List<Option>) {
     showBackground = true,
 )
 @Composable
-fun PreviewPrintOptions() {
+fun PreviewOptions() {
     RandomizerTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            PrintOptions(options = listOf(Option("Yes"), Option("No")))
+            Options(options = listOf(Option("Yes"), Option("No")))
         }
     }
 }
 
 @Composable
-fun PrintOption(option: Option) {
+fun Option(option: Option) {
     var isHighlighted by remember { mutableStateOf(false) }
     val surfaceColor by animateColorAsState(
         if (isHighlighted) MaterialTheme.colors.primary else MaterialTheme.colors.surface
