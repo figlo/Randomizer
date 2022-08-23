@@ -38,11 +38,11 @@ class MainActivity : ComponentActivity() {
                     Options(options = listOfOptions)
                 }
 
-                val clicks = rememberSaveable {
+                var clicks by rememberSaveable {
                     mutableStateOf(0)
                 }
-                val lambda = { clicks.value += 1}
-                ClickCounter(clicks = clicks.value, lambda)
+                val lambda = { clicks += 1}
+                ClickCounter(clicks = clicks, lambda)
             }
         }
     }
