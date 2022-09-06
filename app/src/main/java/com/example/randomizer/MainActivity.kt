@@ -12,7 +12,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,39 +33,42 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RandomizerTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Options(options = listOfOptions)
+                Surface(
+                    color = MaterialTheme.colors.surface,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Spacer(modifier = Modifier.height(80.dp))
+                        Options(options = listOfOptions)
+                    }
                 }
 
-                var clicks by rememberSaveable {
-                    mutableStateOf(0)
-                }
-                val lambda = { clicks += 1}
-                ClickCounter(clicks = clicks, lambda)
+//                var clicks by rememberSaveable {
+//                    mutableStateOf(0)
+//                }
+//                val lambda = { clicks += 1}
+//                ClickCounter(clicks = clicks, lambda)
             }
         }
     }
 }
 
 @Composable
-fun ClickCounter(clicks: Int, onClick: () -> Unit) {
-    Button(onClick = onClick) {
-        Text("I've been clicked $clicks times.")
-    }
-}
-
-@Composable
 fun Options(options: List<Option>) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top,
     ) {
-        Spacer(modifier = Modifier.height(80.dp))
         for (option in options) {
+            Spacer(modifier = Modifier.width(48.dp))
             Option(option = option)
         }
     }
 }
+
 
 @Preview(
     name = "Light Mode",
@@ -80,6 +82,7 @@ fun Options(options: List<Option>) {
 fun PreviewOptions() {
     RandomizerTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.height(80.dp))
             Options(options = listOf(Option("Yes"), Option("No")))
         }
     }
@@ -103,5 +106,12 @@ fun Option(option: Option) {
             modifier = Modifier.padding(all = 8.dp),
             style = MaterialTheme.typography.h4,
         )
+    }
+}
+
+@Composable
+fun ClickCounter(clicks: Int, onClick: () -> Unit) {
+    Button(onClick = onClick) {
+        Text("I've been clicked $clicks times.")
     }
 }
