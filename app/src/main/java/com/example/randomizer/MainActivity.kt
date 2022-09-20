@@ -26,25 +26,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val listOfOptions: List<Option> = listOf(
-            Option("Yes"),
-            Option("No"),
-        )
-
         setContent {
             RandomizerTheme {
-                Surface(
-                    color = MaterialTheme.colors.surface,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.Top,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Spacer(modifier = Modifier.height(80.dp))
-                        Options(options = listOfOptions)
-                    }
-                }
+                Randomizer()
 
 //                var clicks by rememberSaveable {
 //                    mutableStateOf(0)
@@ -57,18 +41,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Options(options: List<Option>) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Top,
+fun Randomizer() {
+    val options: List<Option> = listOf(
+        Option("Yes"),
+        Option("No"),
+    )
+
+    Surface(
+        color = MaterialTheme.colors.surface,
+        modifier = Modifier.fillMaxSize()
     ) {
-        for (option in options) {
-            Spacer(modifier = Modifier.width(48.dp))
-            Option(option = option)
+        Column(
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Spacer(modifier = Modifier.height(80.dp))
+            RandomizerOptions(options = options)
         }
     }
 }
-
 
 @Preview(
     name = "Light Mode",
@@ -79,12 +70,21 @@ fun Options(options: List<Option>) {
     showBackground = true,
 )
 @Composable
-fun PreviewOptions() {
-    RandomizerTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.height(80.dp))
-            Options(options = listOf(Option("Yes"), Option("No")))
+fun Preview() {
+    Randomizer()
+}
+
+@Composable
+fun RandomizerOptions(options: List<Option>) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Top,
+    ) {
+        for (option in options) {
+            Spacer(modifier = Modifier.width(48.dp))
+            Option(option = option)
         }
+        Spacer(modifier = Modifier.width(48.dp))
     }
 }
 
