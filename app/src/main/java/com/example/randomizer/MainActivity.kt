@@ -27,39 +27,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            RandomizerTheme {
-                Randomizer()
+            Randomizer()
 
 //                var clicks by rememberSaveable {
 //                    mutableStateOf(0)
 //                }
 //                val lambda = { clicks += 1}
 //                ClickCounter(clicks = clicks, lambda)
-            }
         }
     }
 }
 
-@Composable
-fun Randomizer() {
-    val options: List<Option> = listOf(
-        Option("Yes"),
-        Option("No"),
-    )
-
-    Surface(
-        color = MaterialTheme.colors.surface,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.height(80.dp))
-            RandomizerOptions(options = options)
-        }
-    }
-}
 
 @Preview(
     name = "Light Mode",
@@ -67,11 +45,40 @@ fun Randomizer() {
 @Preview(
     name = "Dark Mode",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
 )
 @Composable
-fun Preview() {
-    Randomizer()
+fun Randomizer() {
+    RandomizerTheme {
+        val options: List<Option> = listOf(
+            Option("Yes"),
+            Option("No"),
+        )
+
+        Surface(
+            color = MaterialTheme.colors.surface,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(modifier = Modifier.height(80.dp))
+                RandomizerOptions(options = options)
+
+                Spacer(modifier = Modifier.height(80.dp))
+                Row {
+                    Button(onClick = {
+                        options.random()
+                    }) {
+                        Text(
+                            text = "Randomize!",
+                            style = MaterialTheme.typography.h4,
+                        )
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Composable
