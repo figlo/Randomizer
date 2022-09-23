@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Randomizer()
+            RandomizerScreen()
 
 //                var clicks by rememberSaveable {
 //                    mutableStateOf(0)
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
     showBackground = true,
 )
 @Composable
-fun Randomizer() {
+fun RandomizerScreen() {
     RandomizerTheme {
         val options: List<Option> = listOf(
             Option("Yes"),
