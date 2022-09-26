@@ -84,7 +84,7 @@ fun RandomizerScreen() {
 }
 
 @Composable
-fun RandomizerOptions(options: List<Option>) {
+fun RandomizerOptions(options: List<Option>, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top,
@@ -98,7 +98,7 @@ fun RandomizerOptions(options: List<Option>) {
 }
 
 @Composable
-fun Option(option: Option) {
+fun Option(option: Option, modifier: Modifier = Modifier) {
     var isHighlighted by remember { mutableStateOf(false) }
     val surfaceColor by animateColorAsState(
         if (isHighlighted) MaterialTheme.colors.primary else MaterialTheme.colors.surface
