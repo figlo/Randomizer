@@ -22,22 +22,17 @@ data class Option(
     val text: String
 )
 
+var selectedOption: Option? = null
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             RandomizerScreen()
-
-//                var clicks by rememberSaveable {
-//                    mutableStateOf(0)
-//                }
-//                val lambda = { clicks += 1}
-//                ClickCounter(clicks = clicks, lambda)
         }
     }
 }
-
 
 @Preview(
     name = "Light Mode",
@@ -68,17 +63,22 @@ fun RandomizerScreen() {
                 RandomizerOptions(options = options)
 
                 Spacer(modifier = Modifier.height(80.dp))
-                Row {
-                    Button(onClick = {
-                        options.random()
-                    }) {
-                        Text(
-                            text = "Randomize!",
-                            style = MaterialTheme.typography.h4,
-                        )
-                    }
-                }
+                RandomizeButton(options = options)
             }
+        }
+    }
+}
+
+@Composable
+private fun RandomizeButton(options: List<Option>) {
+    Row {
+        Button(onClick = {
+            selectedOption = options.random()
+        }) {
+            Text(
+                text = "Randomize!",
+                style = MaterialTheme.typography.h4,
+            )
         }
     }
 }
@@ -119,9 +119,16 @@ fun Option(option: Option, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun ClickCounter(clicks: Int, onClick: () -> Unit) {
-    Button(onClick = onClick) {
-        Text("I've been clicked $clicks times.")
-    }
-}
+
+//                var clicks by rememberSaveable {
+//                    mutableStateOf(0)
+//                }
+//                val lambda = { clicks += 1}
+//                ClickCounter(clicks = clicks, lambda)
+
+//@Composable
+//fun ClickCounter(clicks: Int, onClick: () -> Unit) {
+//    Button(onClick = onClick) {
+//        Text("I've been clicked $clicks times.")
+//    }
+//}
