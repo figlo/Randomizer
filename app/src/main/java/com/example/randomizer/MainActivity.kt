@@ -86,6 +86,7 @@ fun RandomizerScreen() {
 @Composable
 fun RandomizerOptions(options: List<Option>, modifier: Modifier = Modifier) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top,
     ) {
@@ -107,7 +108,7 @@ fun Option(option: Option, modifier: Modifier = Modifier) {
         shape = MaterialTheme.shapes.medium,
         elevation = 3.dp,
         color = surfaceColor,
-        modifier = Modifier.clickable { isHighlighted = !isHighlighted },
+        modifier = modifier.clickable { isHighlighted = !isHighlighted },
     ) {
         Text(
             text = option.text,
