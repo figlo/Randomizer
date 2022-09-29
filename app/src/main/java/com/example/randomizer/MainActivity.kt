@@ -2,6 +2,7 @@ package com.example.randomizer
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
@@ -20,10 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.randomizer.ui.theme.RandomizerTheme
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Option(
     val text: String
-)
+) : Parcelable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
