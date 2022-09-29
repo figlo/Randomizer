@@ -5,13 +5,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,8 +24,6 @@ import com.example.randomizer.ui.theme.RandomizerTheme
 data class Option(
     val text: String
 )
-
-var selectedOption: Option? = null
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,8 @@ fun RandomizerScreen() {
             Option("No"),
         )
 
+        var selectedOption: Option? by rememberSaveable { mutableStateOf(null) }
+
         Surface(
             color = MaterialTheme.colors.surface,
             modifier = Modifier.fillMaxSize()
@@ -60,21 +63,19 @@ fun RandomizerScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(80.dp))
-                RandomizerOptions(options = options)
+                RandomizerOptions(options = options, selectedOption = selectedOption)
 
                 Spacer(modifier = Modifier.height(80.dp))
-                RandomizeButton(options = options)
+                RandomizeButton(onRandomize = { selectedOption = options.random() })
             }
         }
     }
 }
 
 @Composable
-private fun RandomizeButton(options: List<Option>) {
+private fun RandomizeButton(onRandomize: () -> Unit) {
     Row {
-        Button(onClick = {
-            selectedOption = options.random()
-        }) {
+        Button(onClick = onRandomize) {
             Text(
                 text = "Randomize!",
                 style = MaterialTheme.typography.h4,
@@ -84,7 +85,7 @@ private fun RandomizeButton(options: List<Option>) {
 }
 
 @Composable
-fun RandomizerOptions(options: List<Option>, modifier: Modifier = Modifier) {
+fun RandomizerOptions(options: List<Option>, selectedOption: Option?, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.Center,
@@ -92,23 +93,23 @@ fun RandomizerOptions(options: List<Option>, modifier: Modifier = Modifier) {
     ) {
         for (option in options) {
             Spacer(modifier = Modifier.width(48.dp))
-            Option(option = option)
+            val isOptionSelected = option == selectedOption
+            Option(option = option, isOptionSelected = isOptionSelected)
         }
         Spacer(modifier = Modifier.width(48.dp))
     }
 }
 
 @Composable
-fun Option(option: Option, modifier: Modifier = Modifier) {
-    var isHighlighted by remember { mutableStateOf(false) }
+fun Option(option: Option, isOptionSelected: Boolean, modifier: Modifier = Modifier) {
     val surfaceColor by animateColorAsState(
-        if (isHighlighted) MaterialTheme.colors.primary else MaterialTheme.colors.surface
+        if (isOptionSelected) MaterialTheme.colors.primary else MaterialTheme.colors.surface
     )
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 3.dp,
         color = surfaceColor,
-        modifier = modifier.clickable { isHighlighted = !isHighlighted },
+        modifier = modifier,
     ) {
         Text(
             text = option.text,
@@ -118,17 +119,3 @@ fun Option(option: Option, modifier: Modifier = Modifier) {
         )
     }
 }
-
-
-//                var clicks by rememberSaveable {
-//                    mutableStateOf(0)
-//                }
-//                val lambda = { clicks += 1}
-//                ClickCounter(clicks = clicks, lambda)
-
-//@Composable
-//fun ClickCounter(clicks: Int, onClick: () -> Unit) {
-//    Button(onClick = onClick) {
-//        Text("I've been clicked $clicks times.")
-//    }
-//}
