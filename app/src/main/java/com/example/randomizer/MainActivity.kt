@@ -22,11 +22,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.randomizer.ui.theme.RandomizerTheme
 import kotlinx.parcelize.Parcelize
+import kotlin.random.Random
 
 @Parcelize
 data class Option(
     val text: String
 ) : Parcelable
+
+val random = Random(System.currentTimeMillis())
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,20 +72,8 @@ fun RandomizerScreen() {
                 RandomizerOptions(options = options, selectedOption = selectedOption)
 
                 Spacer(modifier = Modifier.height(80.dp))
-                RandomizeButton(onRandomize = { selectedOption = options.random() })
+                RandomizeButton(onRandomize = { selectedOption = options.random(random) })
             }
-        }
-    }
-}
-
-@Composable
-private fun RandomizeButton(onRandomize: () -> Unit) {
-    Row {
-        Button(onClick = onRandomize) {
-            Text(
-                text = "Randomize!",
-                style = MaterialTheme.typography.h4,
-            )
         }
     }
 }
@@ -120,5 +111,17 @@ fun Option(option: Option, isOptionSelected: Boolean, modifier: Modifier = Modif
             modifier = Modifier.padding(all = 8.dp),
             style = MaterialTheme.typography.h4,
         )
+    }
+}
+
+@Composable
+private fun RandomizeButton(onRandomize: () -> Unit) {
+    Row {
+        Button(onClick = onRandomize) {
+            Text(
+                text = "Randomize!",
+                style = MaterialTheme.typography.h4,
+            )
+        }
     }
 }
