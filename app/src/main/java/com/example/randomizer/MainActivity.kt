@@ -41,15 +41,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(
-    name = "Light Mode",
-    showBackground = true,
-)
-@Preview(
-    name = "Dark Mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-)
+@DarkLightPreviews
 @Composable
 fun RandomizerScreen() {
     RandomizerTheme {
@@ -125,3 +117,17 @@ private fun RandomizeButton(onRandomize: () -> Unit) {
         }
     }
 }
+
+@Preview(
+    name = "Light Mode",
+    group = "UI mode",
+    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
+    showBackground = true,
+)
+@Preview(
+    name = "Dark Mode",
+    group = "UI mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL,
+    showBackground = true,
+)
+annotation class DarkLightPreviews
