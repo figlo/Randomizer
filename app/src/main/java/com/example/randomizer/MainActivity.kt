@@ -46,16 +46,13 @@ fun RandomizerScreen() {
         var selectedOption: Option? by rememberSaveable { mutableStateOf(null) }
 
         Surface(
-            color = MaterialTheme.colors.surface,
             modifier = Modifier.fillMaxSize()
         ) {
             Column(
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Spacer(modifier = Modifier.height(80.dp))
-                RandomizerOptions(options = options, selectedOption = selectedOption)
-
+                RandomizerOptions(options = options, selectedOption = selectedOption, modifier = Modifier.fillMaxWidth())
                 Spacer(modifier = Modifier.height(80.dp))
                 RandomizeButton(onRandomize = { selectedOption = options.random(random) })
             }
@@ -66,16 +63,14 @@ fun RandomizerScreen() {
 @Composable
 fun RandomizerOptions(options: List<Option>, selectedOption: Option?, modifier: Modifier = Modifier) {
     Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Top,
     ) {
         for (option in options) {
-            Spacer(modifier = Modifier.width(48.dp))
             val isOptionSelected = option == selectedOption
             Option(option = option, isOptionSelected = isOptionSelected)
         }
-        Spacer(modifier = Modifier.width(48.dp))
     }
 }
 
