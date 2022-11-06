@@ -4,17 +4,15 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +50,11 @@ fun RandomizerScreen() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                RandomizerOptions(options = options, selectedOption = selectedOption, modifier = Modifier.fillMaxWidth())
+                RandomizerOptions(
+                    options = options,
+                    selectedOption = selectedOption,
+                    modifier = Modifier.fillMaxWidth()
+                )
                 Spacer(modifier = Modifier.height(80.dp))
                 RandomizeButton(onRandomize = { selectedOption = options.random(random) })
             }
@@ -69,20 +71,32 @@ fun RandomizerOptions(options: List<Option>, selectedOption: Option?, modifier: 
     ) {
         for (option in options) {
             val isOptionSelected = option == selectedOption
-            Option(option = option, isOptionSelected = isOptionSelected)
+            Option(
+                option = option,
+                isOptionSelected = isOptionSelected
+            )
         }
     }
 }
 
 @Composable
 fun Option(option: Option, isOptionSelected: Boolean, modifier: Modifier = Modifier) {
-    val surfaceColor by animateColorAsState(
-        if (isOptionSelected) MaterialTheme.colors.primary else MaterialTheme.colors.surface
-    )
+    val primaryColor = MaterialTheme.colors.primary
+    val surfaceColor = MaterialTheme.colors.surface
+
+    val color = remember { Animatable(surfaceColor) }
+
+    LaunchedEffect(key1 = isOptionSelected) {
+        color.animateTo(surfaceColor, animationSpec = tween(1))
+        if (isOptionSelected) {
+            color.animateTo(primaryColor, animationSpec = tween(500))
+        }
+    }
+
     Surface(
         shape = MaterialTheme.shapes.medium,
         elevation = 3.dp,
-        color = surfaceColor,
+        color = color.value,
         modifier = modifier,
     ) {
         Text(
