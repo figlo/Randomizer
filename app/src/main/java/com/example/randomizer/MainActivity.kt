@@ -42,6 +42,8 @@ fun RandomizerScreen() {
         )
 
         var selectedOption: Option? by rememberSaveable { mutableStateOf(null) }
+        var timeInMillis: Long by rememberSaveable { mutableStateOf(System.currentTimeMillis()) }
+
 
         Surface(
             modifier = Modifier.fillMaxSize()
@@ -53,17 +55,21 @@ fun RandomizerScreen() {
                 RandomizerOptions(
                     options = options,
                     selectedOption = selectedOption,
+                    timeInMillis = timeInMillis,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(80.dp))
-                RandomizeButton(onRandomize = { selectedOption = options.random(random) })
+                RandomizeButton(onRandomize = {
+                    selectedOption = options.random(random)
+                    timeInMillis = System.currentTimeMillis()
+                })
             }
         }
     }
 }
 
 @Composable
-fun RandomizerOptions(options: List<Option>, selectedOption: Option?, modifier: Modifier = Modifier) {
+fun RandomizerOptions(options: List<Option>, selectedOption: Option?, timeInMillis: Long, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
@@ -73,23 +79,24 @@ fun RandomizerOptions(options: List<Option>, selectedOption: Option?, modifier: 
             val isOptionSelected = option == selectedOption
             Option(
                 option = option,
-                isOptionSelected = isOptionSelected
+                isOptionSelected = isOptionSelected,
+                timeInMillis = timeInMillis,
             )
         }
     }
 }
 
 @Composable
-fun Option(option: Option, isOptionSelected: Boolean, modifier: Modifier = Modifier) {
+fun Option(option: Option, isOptionSelected: Boolean, timeInMillis: Long, modifier: Modifier = Modifier) {
     val primaryColor = MaterialTheme.colors.primary
     val surfaceColor = MaterialTheme.colors.surface
 
     val color = remember { Animatable(surfaceColor) }
 
-    LaunchedEffect(key1 = isOptionSelected) {
-        color.animateTo(surfaceColor, animationSpec = tween(1))
+    LaunchedEffect(key1 = timeInMillis) {
+        color.animateTo(surfaceColor, animationSpec = tween(600))
         if (isOptionSelected) {
-            color.animateTo(primaryColor, animationSpec = tween(500))
+            color.animateTo(primaryColor, animationSpec = tween(300))
         }
     }
 
