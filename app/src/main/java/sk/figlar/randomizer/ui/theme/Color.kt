@@ -1,4 +1,4 @@
-package com.example.randomizer.ui.theme
+package sk.figlar.randomizer.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

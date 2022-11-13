@@ -1,4 +1,4 @@
-package com.example.randomizer
+package sk.figlar.randomizer
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
