@@ -1,3 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Randomizer</string>
+    <string name="randomize">Randomize!</string>
+
+    <!-- Yes No -->
+    <string name="yesNoHint">Generate random \"Yes\" or \"No\" answer to your question:</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

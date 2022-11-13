@@ -15,6 +15,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import sk.figlar.randomizer.ui.theme.RandomizerTheme
@@ -37,8 +39,8 @@ class MainActivity : ComponentActivity() {
 fun RandomizerScreen() {
     RandomizerTheme {
         val options: List<Option> = listOf(
-            Option("Yes"),
-            Option("No"),
+            Option(stringResource(R.string.yes)),
+            Option(stringResource(R.string.no)),
         )
 
         var selectedOption: Option? by rememberSaveable { mutableStateOf(null) }
@@ -52,13 +54,20 @@ fun RandomizerScreen() {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                Text(
+                    text = stringResource(R.string.yesNoHint),
+                    style = MaterialTheme.typography.h5,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                )
+                Spacer(modifier = Modifier.height(60.dp))
                 RandomizerOptions(
                     options = options,
                     selectedOption = selectedOption,
                     timeInMillis = timeInMillis,
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(80.dp))
+                Spacer(modifier = Modifier.height(60.dp))
                 RandomizeButton(onRandomize = {
                     selectedOption = options.random(random)
                     timeInMillis = System.currentTimeMillis()
@@ -120,7 +129,7 @@ private fun RandomizeButton(onRandomize: () -> Unit) {
     Row {
         Button(onClick = onRandomize) {
             Text(
-                text = "Randomize!",
+                text = stringResource(R.string.randomize),
                 style = MaterialTheme.typography.h4,
             )
         }

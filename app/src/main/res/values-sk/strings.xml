@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="randomize">Generuj!</string>
+
+    <!-- Yes No -->
+    <string name="yesNoHint">Vygeneruj náhodnú odpoveď \"Áno\" alebo \"Nie\"na tvoju otázku:</string>
+    <string name="yes">Áno</string>
+    <string name="no">Nie</string>
+</resources>
