@@ -1,8 +1,8 @@
 buildscript {
     ext {
         compose_compiler = '1.4.1'
-        compose_runtime = '1.4.1'
-        compose_material = '1.4.1'
+        compose_runtime = '1.4.2'
+        compose_material = '1.4.2'
     }
 }
 
