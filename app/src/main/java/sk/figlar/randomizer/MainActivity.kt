@@ -14,13 +14,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import sk.figlar.randomizer.ui.theme.RandomizerTheme
+import sk.figlar.randomizer.ui.theme.md_theme_light_surface
+import sk.figlar.randomizer.ui.theme.md_theme_light_tertiary
 import kotlin.random.Random
 
 val random = Random(System.currentTimeMillis())
@@ -56,7 +59,7 @@ fun RandomizerScreen() {
         )
 
         var selectedOption: Option? by rememberSaveable { mutableStateOf(null) }
-        var timeInMillis: Long by rememberSaveable { mutableStateOf(System.currentTimeMillis()) }
+        var timeInMillis: Long by rememberSaveable { mutableLongStateOf(System.currentTimeMillis()) }
 
 
         Surface(
@@ -68,7 +71,7 @@ fun RandomizerScreen() {
             ) {
                 Text(
                     text = stringResource(R.string.yesNoHint),
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.headlineMedium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                 )
@@ -109,29 +112,29 @@ fun RandomizerOptions(options: List<Option>, selectedOption: Option?, timeInMill
 
 @Composable
 fun Option(option: Option, isOptionSelected: Boolean, timeInMillis: Long, modifier: Modifier = Modifier) {
-    val primaryColor = MaterialTheme.colors.primary
-    val surfaceColor = MaterialTheme.colors.surface
+    val notSelectedColor = md_theme_light_surface
+    val selectedColor = md_theme_light_tertiary
 
-    val color = remember { Animatable(surfaceColor) }
+    val color = remember { Animatable(notSelectedColor) }
 
     LaunchedEffect(key1 = timeInMillis) {
-        color.animateTo(surfaceColor, animationSpec = tween(600))
+        color.animateTo(notSelectedColor, animationSpec = tween(600))
         if (isOptionSelected) {
-            color.animateTo(primaryColor, animationSpec = tween(300))
+            color.animateTo(selectedColor, animationSpec = tween(300))
         }
     }
 
     Surface(
         shape = MaterialTheme.shapes.medium,
-        elevation = 3.dp,
+        shadowElevation = 3.dp,
         color = color.value,
         modifier = modifier,
     ) {
         Text(
             text = option.text,
-            color = MaterialTheme.colors.secondaryVariant,
+//            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(all = 8.dp),
-            style = MaterialTheme.typography.h4,
+            style = MaterialTheme.typography.headlineMedium,
         )
     }
 }
@@ -142,7 +145,7 @@ private fun RandomizeButton(onRandomize: () -> Unit) {
         Button(onClick = onRandomize) {
             Text(
                 text = stringResource(R.string.randomize),
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.headlineMedium,
             )
         }
     }
