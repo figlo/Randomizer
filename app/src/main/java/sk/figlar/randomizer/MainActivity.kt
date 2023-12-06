@@ -132,7 +132,6 @@ fun Option(option: Option, isOptionSelected: Boolean, timeInMillis: Long, modifi
     ) {
         Text(
             text = option.text,
-//            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.padding(all = 8.dp),
             style = MaterialTheme.typography.headlineMedium,
         )
