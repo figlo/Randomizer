@@ -3,7 +3,7 @@
     <string name="randomize">Generuj!</string>
 
     <!-- Yes No -->
-    <string name="yesNoHint">Vygeneruj náhodnú odpoveď \"Áno\" alebo \"Nie\"na tvoju otázku:</string>
+    <string name="yesNoHint">Vygeneruj náhodnú odpoveď \"Áno\" alebo \"Nie\" na tvoju otázku:</string>
     <string name="yes">Áno</string>
     <string name="no">Nie</string>
 </resources>
