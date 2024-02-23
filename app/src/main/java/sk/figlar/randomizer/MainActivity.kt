@@ -1,6 +1,5 @@
 package sk.figlar.randomizer
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,7 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewDynamicColors
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import sk.figlar.randomizer.ui.theme.RandomizerTheme
 import sk.figlar.randomizer.ui.theme.md_theme_light_surface
@@ -49,7 +51,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@DarkLightPreviews
+@PreviewLightDark
+@PreviewScreenSizes
+@PreviewFontScale
+@PreviewDynamicColors
 @Composable
 fun RandomizerScreen() {
     RandomizerTheme {
@@ -149,19 +154,3 @@ private fun RandomizeButton(onRandomize: () -> Unit) {
         }
     }
 }
-
-@Preview(
-    name = "Light Mode",
-    group = "UI mode",
-    uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
-    showSystemUi = true,
-    showBackground = true,
-)
-@Preview(
-    name = "Dark Mode",
-    group = "UI mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL,
-    showSystemUi = true,
-    showBackground = true,
-)
-annotation class DarkLightPreviews
